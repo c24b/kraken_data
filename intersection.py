@@ -8,6 +8,7 @@ def get_type(resource):
     '''describe the type of resource by its type'''
     is_type_of = {}
     q = '''
+    prefix db-owl: <http://dbpedia.org/ontology/>
     SELECT ?type WHERE {
     <http://dbpedia.org/resource/%s> rdf:type ?type .
     }
@@ -83,21 +84,32 @@ def filter_by_tags(tags, types, offset):
                 predicates.append([types[k], n[1],n[0]])
     return predicates
 
-def get_similar_prop(tagsA, tagsB):
+def get_similar_tags(tagsA, tagsB, offset=3):
     similar_prop = []
     for n in list(set(tagsA) & set(tagsB)):
         if tagsA[n] > 1 and tagsB[n] > 1:
             similar_prop.append([n, tagsA[n], tagsB[n]])
-    return sorted(similar_prop, key=lambda x: int(x[2]), reverse=True)[:3]
+    return sorted(similar_prop, key=lambda x: int(x[2]), reverse=True)[:offset]
+
+def get_predicate(typesA,tags):
+    predicates = defaultdict.fromkeys([t[0] for t in tags], [])
+    for k in typesA.keys():
+        for t, t_nb, t_nb2 in tags:
+            if t in k.lower():
+                predicates[t].extend(typesA[k])
+    return(predicates)
+
 
 if __name__ == "__main__":
-    resourceA = "Marie_Antoinette"
+    resourceA = "Jacques_Tati"
     typesA = get_type(resourceA)
     tagsA = get_tags(typesA)
     #tags = filter_tags(types, 5)
     #print(tags)
-    resourceB = "Louis_de_Funès"
+    resourceB = "Mon_Oncle"
     typesB = get_type(resourceB)
     tagsB = get_tags(typesB)
-    similar_prop = get_similar_prop(tagsA, tagsB)
+    similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
     print(similar_prop)
+    predicatesA =(get_predicate(typesA,similar_prop))
+    predicatesB =(get_predicate(typesB,similar_prop))
