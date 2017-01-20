@@ -3,6 +3,8 @@ import re
 from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import Counter, defaultdict
 import nltk
+import networkx as nx
+import matplotlib.pyplot as plt
 
 def get_type(resource):
     '''describe the type of resource by its type'''
@@ -99,17 +101,49 @@ def get_predicate(typesA,tags):
                 predicates[t].extend(typesA[k])
     return(predicates)
 
+def draw_graph(edges):
+    g = nx.Graph()
+    for n in edges:
+        g.add_edge(n[0],n[1], weight=n[2])
+    nx.draw(g, with_labels=True)
+    plt.savefig("testA.png") # save as png
+    plt.show()
+def draw_n_intersect(edges):
+    g = nx.Graph()
+    for e in edges:
+        g.add_edge(e[0],e[1], weight=e[2])
+    nx.draw(g, with_labels=True)
+    plt.show()
+
+def draw_intersect(edgesA, edgesB):
+    g = nx.Graph()
+    for n in edgesA:
+        g.add_edge(n[0],n[1], weight=n[2])
+    for n in edgesB:
+        g.add_edge(n[0],n[1], weight=n[2])
+    nx.draw(g, with_labels=True)
+    plt.savefig("insersection.png") # save as png
+    plt.show()
 
 if __name__ == "__main__":
-    resourceA = "Jacques_Tati"
+    resourceA = "Louis_de_Funès"
     typesA = get_type(resourceA)
     tagsA = get_tags(typesA)
+    edgesA = [(resourceA,t,w) for t,w in tagsA.items() if w > 1]
+    #draw_graph(edges)
+
     #tags = filter_tags(types, 5)
     #print(tags)
-    resourceB = "Mon_Oncle"
+    resourceB = "Jacques_Tati"
     typesB = get_type(resourceB)
     tagsB = get_tags(typesB)
-    similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
-    print(similar_prop)
-    predicatesA =(get_predicate(typesA,similar_prop))
-    predicatesB =(get_predicate(typesB,similar_prop))
+    edgesB = [(resourceB,t,w) for t,w in tagsB.items() if w > 1]
+    resourceC = "Louis_Malle"
+    typesC = get_type(resourceC)
+    tagsC = get_tags(typesC)
+    edgesC = [(resourceC,t,w) for t,w in tagsB.items() if w > 1]
+    draw_n_intersect(edgesA + edgesB + edgesC)
+    # similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
+    # print(similar_prop)
+    # predicatesA =(get_predicate(typesA,similar_prop))
+    # predicatesB =(get_predicate(typesB,similar_prop))
