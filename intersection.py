@@ -1,4 +1,11 @@
+#/usr/bin/env python3
 #coding: utf-8
+'''
+filename: intersection.py
+Get the intersection concept between two ressources
+The main goal is to understand the analogy and discover links
+'''
+
 import re
 from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import Counter, defaultdict
@@ -74,6 +81,7 @@ def get_tags(types):
     return Counter(tags)
 
 def filter_frequent_tags(types, offset=5):
+    '''filter the most frequent tags'''
     return get_tags(types).most_common(offset)
 
 def filter_by_tags(tags, types, offset):
@@ -87,6 +95,7 @@ def filter_by_tags(tags, types, offset):
     return predicates
 
 def get_similar_tags(tagsA, tagsB, offset=3):
+    '''get tags that are shared between 2 lists of tags with offset'''
     similar_prop = []
     for n in list(set(tagsA) & set(tagsB)):
         if tagsA[n] > 1 and tagsB[n] > 1:
@@ -94,6 +103,7 @@ def get_similar_tags(tagsA, tagsB, offset=3):
     return sorted(similar_prop, key=lambda x: int(x[2]), reverse=True)[:offset]
 
 def get_predicate(typesA,tags):
+    ''' get the full predicate'''
     predicates = defaultdict.fromkeys([t[0] for t in tags], [])
     for k in typesA.keys():
         for t, t_nb, t_nb2 in tags:
@@ -102,12 +112,14 @@ def get_predicate(typesA,tags):
     return(predicates)
 
 def draw_graph(edges):
+    '''graph it'''
     g = nx.Graph()
     for n in edges:
         g.add_edge(n[0],n[1], weight=n[2])
     nx.draw(g, with_labels=True)
     plt.savefig("testA.png") # save as png
     plt.show()
+
 def draw_n_intersect(edges):
     g = nx.Graph()
     for e in edges:
