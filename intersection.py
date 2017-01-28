@@ -4,6 +4,7 @@
 filename: intersection.py
 Get the intersection concept between two ressources
 The main goal is to understand the analogy and discover links
+For now using dbpedia
 '''
 
 import re
@@ -14,7 +15,9 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 def get_type(resource):
-    '''describe the type of resource by its type'''
+    '''
+    build a dict which describes the type of resource by its types
+    '''
     is_type_of = {}
     q = '''
     prefix db-owl: <http://dbpedia.org/ontology/>
@@ -66,6 +69,20 @@ def get_type(resource):
                     else:
                         is_type_of[type_v] = [val]
     return is_type_of
+def get_tags_d(types):
+    '''build inverse ref tag:[uri, uri,...]'''
+    from nltk.stem import WordNetLemmatizer
+    wnl = WordNetLemmatizer()
+    from nltk.corpus import stopwords
+    tags = get_tags(types)
+    tags_d = defaultdict.from_keys(tags, [])
+    for k,v in types.items():
+        for n in re.findall('[A-Z][^A-Z]*', k):
+            sing = wnl.lemmatize(n.lower())
+            if sing not in stopwords.words('english'):
+                tags_d[sing].append(v)
+    return tags_d
+
 
 def get_tags(types):
     '''extract tags from description'''
@@ -110,21 +127,81 @@ def get_predicate(typesA,tags):
             if t in k.lower():
                 predicates[t].extend(typesA[k])
     return(predicates)
+def build_edges(resource="Louis_de_Funès"):
+    types = get_type(resource)
+    tags = get_tags(types)
+    edges = [(resource,t,w) for t,w in tags.items() if w > 1]
+    return edges
 
-def draw_graph(edges):
+def build_graph(edges):
     '''graph it'''
     g = nx.Graph()
     for n in edges:
         g.add_edge(n[0],n[1], weight=n[2])
+    return g
+
+def draw_graph(g):
     nx.draw(g, with_labels=True)
     plt.savefig("testA.png") # save as png
     plt.show()
 
+def central_nodes(g, nb_nodes = 3):
+    '''identify central points = those who have more links'''
+
+    degrees = sorted([(g.degree(node), node) for node in g.nodes()], reverse=True)
+    return [n [1] for n in degrees[:nb_nodes]]
+
+def get_paths(g, nodes):
+    print(nodes)
+    if nx.has_path(g, nodes[0], nodes[1]):
+        commons_tags = [n for n in nx.all_simple_paths(g, nodes[0],nodes[1])]
+        return commons_tags
+    else: return None
+
 def draw_n_intersect(edges):
+    '''find the intersection between n nodes'''
     g = nx.Graph()
     for e in edges:
         g.add_edge(e[0],e[1], weight=e[2])
-    nx.draw(g, with_labels=True)
+    nodes = central_nodes(g,2)
+    #print(nodes)
+
+    node_path= list(set(chain.from_iterable(get_paths(g, nodes))))
+    node_colors = []
+    labels = {}
+    pos = nx.spring_layout(g)
+    # nx.draw(g, with_labels=True)
+    nx.draw_networkx_nodes(g,pos,
+                       nodelist=g.nodes(),
+                       node_color='grey',
+                       node_size=100,
+                   alpha=0.6, with_labels=True)
+    nx.draw_networkx_nodes(g,pos,
+                       nodelist=node_path,
+                       node_color='green',
+                       node_size=300,
+                   alpha=0.7, with_labels=True)
+    nx.draw_networkx_nodes(g,pos,
+                       nodelist=nodes,
+                       node_color='r',
+                       node_size=500,
+                   alpha=0.8, with_labels=True)
+
+    for i,n in enumerate(g.nodes()):
+    #     if n in node_path and n not in nodes:
+    #         node_colors.append("green")
+    #     elif n in nodes:
+    #         node_colors.append("red")
+    #     else:
+    #         node_colors.append("grey")
+        print(n)
+        labels[n] = n
+    #node_colors = ["blue" if n in node_path  else "grey" ]
+
+
+    # nx.draw_networkx_nodes(g, pos=pos, node_color=node_colors, with_labels=True)
+    nx.draw_networkx_edges(g, pos=pos)
+    nx.draw_networkx_labels(g,pos,labels,font_size=12)
     plt.show()
 
 def draw_intersect(edgesA, edgesB):
@@ -138,23 +215,18 @@ def draw_intersect(edgesA, edgesB):
     plt.show()
 
 if __name__ == "__main__":
-    resourceA = "Louis_de_Funès"
-    typesA = get_type(resourceA)
-    tagsA = get_tags(typesA)
-    edgesA = [(resourceA,t,w) for t,w in tagsA.items() if w > 1]
+    from itertools import chain
     #draw_graph(edges)
 
     #tags = filter_tags(types, 5)
     #print(tags)
-    resourceB = "Jacques_Tati"
-    typesB = get_type(resourceB)
-    tagsB = get_tags(typesB)
-    edgesB = [(resourceB,t,w) for t,w in tagsB.items() if w > 1]
-    resourceC = "Louis_Malle"
-    typesC = get_type(resourceC)
-    tagsC = get_tags(typesC)
-    edgesC = [(resourceC,t,w) for t,w in tagsB.items() if w > 1]
-    draw_n_intersect(edgesA + edgesB + edgesC)
+    ressources = ["Jacques_Tati", "Pierre_Richard"]
+    types = {}
+    types = list(chain.from_iterable(get_type(n) for n in ressources))
+    edges = list(chain.from_iterable(build_edges(n) for n in ressources))
+    g = build_graph(edges)
+    #print(get_paths(g, ressources))
+    draw_n_intersect(edges)
     # similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
     # print(similar_prop)
     # predicatesA =(get_predicate(typesA,similar_prop))
