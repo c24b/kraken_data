@@ -170,7 +170,6 @@ def draw_n_intersect(edges):
     node_colors = []
     labels = {}
     pos = nx.spring_layout(g)
-    # nx.draw(g, with_labels=True)
     nx.draw_networkx_nodes(g,pos,
                        nodelist=g.nodes(),
                        node_color='grey',
@@ -188,20 +187,14 @@ def draw_n_intersect(edges):
                    alpha=0.8, with_labels=True)
 
     for i,n in enumerate(g.nodes()):
-    #     if n in node_path and n not in nodes:
-    #         node_colors.append("green")
-    #     elif n in nodes:
-    #         node_colors.append("red")
-    #     else:
-    #         node_colors.append("grey")
-        print(n)
         labels[n] = n
     #node_colors = ["blue" if n in node_path  else "grey" ]
-
+    #nx.draw(g, with_labels=True)
 
     # nx.draw_networkx_nodes(g, pos=pos, node_color=node_colors, with_labels=True)
     nx.draw_networkx_edges(g, pos=pos)
-    nx.draw_networkx_labels(g,pos,labels,font_size=12)
+    nx.draw_networkx_labels(g,pos,labels,font_size=10)
+    plt.savefig("insersection.png") # save as png
     plt.show()
 
 def draw_intersect(edgesA, edgesB):
