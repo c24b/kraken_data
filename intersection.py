@@ -19,20 +19,49 @@ def get_triplets(resource):
     build a matrix for resource representation
     '''
     q = '''
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX radatana: <http://def.bibsys.no/xmlns/radatana/1.0#>
+    PREFIX whois: <http://www.kanzaki.com/ns/whois#>
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    PREFIX : <http://dbpedia.org/resource/>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    PREFIX dc: <http://purl.org/dc/terms/>
     prefix db-owl: <http://dbpedia.org/ontology/>
-    SELECT ?type WHERE {
-    <http://dbpedia.org/resource/%s> rdf:type ?type .
-    }
+    DESCRIBE <http://dbpedia.org/resource/%s>
+
     ''' %(resource)
     sparql = SPARQLWrapper("http://dbpedia.org/sparql")
     sparql.setQuery(q)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()
+    triplets_mx =  []
     nb_results = len(results["results"]["bindings"])
     if nb_results == 0:
         raise Exception("No results found for %s" %resource)
+
     for r in results["results"]["bindings"]:
-        print(r)
+
+        subj, predicate, obj = r["s"]["value"], r["p"]["value"], r["o"]["value"]
+        #un sujet est une ressource constitué d'un préfixe et d'une ressource
+        subj = (("/").join(subj.split("/")[:-1]), subj.split("/")[-1])
+
+        #print({subj[1]:subj[0]})
+        try:
+            obj = (("/").join(obj.split("/")[:-1]), obj.split("/")[-1])
+
+            # print({obj[1]:obj[0]})
+        except:
+            print(obj)
+        # predicate.split("/"), obj.split("/"))
+
+        # if resource in subj:
+        #     pass
+        # else:
+        #     # print(subj, predicate)
+        #     pass
+        # triplets_mx.append([subj, predicate, obj])
+    print()
 
 def get_type(resource):
     '''
