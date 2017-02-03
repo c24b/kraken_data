@@ -14,6 +14,26 @@ import nltk
 import networkx as nx
 import matplotlib.pyplot as plt
 
+def get_triplets(resource):
+    '''
+    build a matrix for resource representation
+    '''
+    q = '''
+    prefix db-owl: <http://dbpedia.org/ontology/>
+    SELECT ?type WHERE {
+    <http://dbpedia.org/resource/%s> rdf:type ?type .
+    }
+    ''' %(resource)
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery(q)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()
+    nb_results = len(results["results"]["bindings"])
+    if nb_results == 0:
+        raise Exception("No results found for %s" %resource)
+    for r in results["results"]["bindings"]:
+        print(r)
+
 def get_type(resource):
     '''
     build a dict which describes the type of resource by its types
@@ -214,13 +234,14 @@ if __name__ == "__main__":
     #tags = filter_tags(types, 5)
     #print(tags)
     ressources = ["Jacques_Tati", "Pierre_Richard"]
-    types = {}
-    types = list(chain.from_iterable(get_type(n) for n in ressources))
-    edges = list(chain.from_iterable(build_edges(n) for n in ressources))
-    g = build_graph(edges)
+    #types = {}
+    #types = list(chain.from_iterable(get_type(n) for n in ressources))
+    #edges = list(chain.from_iterable(build_edges(n) for n in ressources))
+    #g = build_graph(edges)
     #print(get_paths(g, ressources))
-    draw_n_intersect(edges)
+    #draw_n_intersect(edges)
     # similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
     # print(similar_prop)
     # predicatesA =(get_predicate(typesA,similar_prop))
     # predicatesB =(get_predicate(typesB,similar_prop))
+    get_triplets(ressources[0])
