@@ -8,66 +8,37 @@ For now using dbpedia
 '''
 
 import re
+import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import Counter, defaultdict
 import nltk
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def get_triplets(resource):
-    '''
-    build a matrix for resource representation
-    '''
-    q = '''
-    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX radatana: <http://def.bibsys.no/xmlns/radatana/1.0#>
-    PREFIX whois: <http://www.kanzaki.com/ns/whois#>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX : <http://dbpedia.org/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX dc: <http://purl.org/dc/terms/>
-    prefix db-owl: <http://dbpedia.org/ontology/>
-    DESCRIBE <http://dbpedia.org/resource/%s>
-
-    ''' %(resource)
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-    sparql.setQuery(q)
-    sparql.setReturnFormat(JSON)
-    results = sparql.query().convert()
-    triplets_mx =  []
-    nb_results = len(results["results"]["bindings"])
-    if nb_results == 0:
-        raise Exception("No results found for %s" %resource)
-
-    for r in results["results"]["bindings"]:
-
-        subj, predicate, obj = r["s"]["value"], r["p"]["value"], r["o"]["value"]
-        #un sujet est une ressource constitué d'un préfixe et d'une ressource
-        subj = (("/").join(subj.split("/")[:-1]), subj.split("/")[-1])
-
-        #print({subj[1]:subj[0]})
-        try:
-            obj = (("/").join(obj.split("/")[:-1]), obj.split("/")[-1])
-
-            # print({obj[1]:obj[0]})
-        except:
-            print(obj)
-        # predicate.split("/"), obj.split("/"))
-
-        # if resource in subj:
+def index_type( resource, is_type_of):
+    ''''index list and filter'''
+    for n in resource:
+        print(n)
+        type_v, ns, url = n
+        # if type_v == "Thing":
         #     pass
-        # else:
-        #     # print(subj, predicate)
-        #     pass
-        # triplets_mx.append([subj, predicate, obj])
-    print()
+        if type_v in is_type_of.keys():
+            is_type_of[type_v].append({"ns":ns, "url": url})
+        else:
+            is_type_of[type_v] = [{"ns":ns, "url": url}]
+    return is_type_of
+def get_type_label(resource):
+    '''
+    given a resource expressed in dbpedia
+    return every expressed type (entities, resources, ontologies)
+    i.e a dict of label_tag along with their common uris:
+    {label_tag: [uri, uri, ...]}
+    e.g: Jacques_Tati
 
-def get_type(resource):
+
     '''
-    build a dict which describes the type of resource by its types
-    '''
-    is_type_of = {}
+    ns = "http://dbpedia.org"
+    dtype = "resource"
     q = '''
     prefix db-owl: <http://dbpedia.org/ontology/>
     SELECT ?type WHERE {
@@ -77,47 +48,61 @@ def get_type(resource):
     sparql = SPARQLWrapper("http://dbpedia.org/sparql")
     sparql.setQuery(q)
     sparql.setReturnFormat(JSON)
+    is_type_of = {}
     results = sparql.query().convert()
     nb_results = len(results["results"]["bindings"])
     if nb_results == 0:
         raise Exception("No results found for %s" %resource)
-    for r in results["results"]["bindings"]:
-        val = r["type"]["value"]
-        if "entity" in val:
-            #print(val)
-            pass
-        elif "#" in val:
+    type_urls = [r["type"]["value"] for r in results["results"]["bindings"]]
+
+    types_labels = []
+    for val in type_urls:
+    # for r in results["results"]["bindings"]:
+        if "#" in val:
+            ns = val.split("#")[0]
             type_v = val.split("#")[-1]
             type_v = re.sub('s$', '', type_v)
-            if type_v in is_type_of.keys():
-                is_type_of[type_v].append(val)
-            else:
-                is_type_of[type_v] = [val]
+            types_labels.append((type_v, ns ,val))
+
         else:
-            m = re.match('(?P<name>.*?)(?P<id>\d+)$', val)
-            if m is not None:
-                type_v = m.group("name").split("/")[-1]
-                if type_v in is_type_of.keys():
-                    is_type_of[type_v].append(val)
-                else:
-                    is_type_of[type_v] = [val]
+            ns = "/".join(val.split("/")[:-1])
 
+            if "entity" in val:
+                #wikidata IDS
+                r = requests.get(val)
+                r_json =r.json()
+                labels = [e["labels"]["en"]["value"] for e in r_json["entities"].values()]
+                for type_v in set(labels):
+                    types_labels.append((type_v, ns ,val))
+                    # if type_v in is_type_of.keys():
+                    #     is_type_of[type_v].append({"url":val,"ns": ns})
+                    # else:
+                    #     is_type_of[type_v] =[{"url":val,"ns": ns}]
             else:
-                if "Yago" in val or "Wikicat" in val:
-                    type_v = re.split("/(Yago|Wikicat)", val)[-1]
+                m = re.match('(?P<name>.*?)(?P<id>\d+)$', val)
+                if m is not None:
+                    type_v = m.group("name").split("/")[-1]
+                    types_labels.append((type_v, ns ,val))
+                    # if type_v in is_type_of.keys():
+                    #     is_type_of[type_v].append({"url":val,"ns": ns})
+                    # else:
+                    #     is_type_of[type_v] =[{"url":val,"ns": ns}]
 
-                    if type_v in is_type_of.keys():
-                        is_type_of[type_v].append(val)
-                    else:
-                        is_type_of[type_v] = [val]
                 else:
-                    type_v = val.split("/")[-1]
+                    if "Yago" in val or "Wikicat" in val:
+                        type_v = re.split("/(Yago|Wikicat)", val)[-1]
 
-                    if type_v in is_type_of.keys():
-                        is_type_of[type_v].append(val)
+                        # if type_v in is_type_of.keys():
+                        #     is_type_of[type_v].append({"url":val,"ns": ns})
+                        # else:
+                        #     is_type_of[type_v] =[{"url":val,"ns": ns}]
                     else:
-                        is_type_of[type_v] = [val]
+                        type_v = val.split("/")[-1]
+                        types_labels.append((type_v, ns ,val))
+    is_type_of = {}
+    is_type_of = index_type(types_labels, is_type_of)
     return is_type_of
+
 def get_tags_d(types):
     '''build inverse ref tag:[uri, uri,...]'''
     from nltk.stem import WordNetLemmatizer
@@ -177,7 +162,7 @@ def get_predicate(typesA,tags):
                 predicates[t].extend(typesA[k])
     return(predicates)
 def build_edges(resource="Louis_de_Funès"):
-    types = get_type(resource)
+    types = get_type_label(resource)
     tags = get_tags(types)
     edges = [(resource,t,w) for t,w in tags.items() if w > 1]
     return edges
@@ -196,7 +181,6 @@ def draw_graph(g):
 
 def central_nodes(g, nb_nodes = 3):
     '''identify central points = those who have more links'''
-
     degrees = sorted([(g.degree(node), node) for node in g.nodes()], reverse=True)
     return [n [1] for n in degrees[:nb_nodes]]
 
@@ -255,22 +239,79 @@ def draw_intersect(edgesA, edgesB):
     nx.draw(g, with_labels=True)
     plt.savefig("insersection.png") # save as png
     plt.show()
+def get_entity(resource):
+    '''
+    given a resource expressed in dbpedia
+    return every expressed type
+    i.e a dict of label_tag along with their common uris:
+    {label_tag: [uri, uri, ...]}
+    e.g: Jacques_Tati
+    '''
+
+    q = '''
+    prefix db-owl: <http://dbpedia.org/ontology/>
+    SELECT ?type WHERE {
+    <http://dbpedia.org/resource/%s> rdf:type ?type .
+    }
+    ''' %(resource)
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery(q)
+    sparql.setReturnFormat(JSON)
+    is_type_of = {}
+    results = sparql.query().convert()
+    nb_results = len(results["results"]["bindings"])
+    if nb_results == 0:
+        raise Exception("No results found for %s" %resource)
+    entities = []
+    for r in results["results"]["bindings"]:
+        val = r["type"]["value"]
+        if "entity" in val:
+            #wikidata IDS
+            r = requests.get(val)
+            r_json =r.json()
+            # print(r_json["entities"].values())
+            # break
+
+            for e in r_json["entities"].values():
+                # print(e["aliases"])
+                # print(e["aliases"]["fr"])
+                # print(e["descriptions"]["fr"])
+                #synonymes dans toutes les langues
+                for lang, v in e["aliases"].items():
+                    print(lang)
+                #     for syn in v:
+                #         print (syn["value"], syn["language"])
+                #definition dans toutes les langues
+                # print (e["descriptions"])
+                # for lang, v in e["descriptions"].items():
+                #     print(lang)
+                #     print(v)
+                    # for defn in v:
+                    #     print (defn["value"], defn["language"])
+                # #['id', 'descriptions', 'aliases', 'type', 'sitelinks', 'lastrevid', 'modified', 'pageid', 'title', 'labels', 'ns', 'claims']
+                # for lang, v in e["aliases"].items():
+        else:
+            print (r)
 
 if __name__ == "__main__":
     from itertools import chain
-    #draw_graph(edges)
 
-    #tags = filter_tags(types, 5)
-    #print(tags)
-    ressources = ["Jacques_Tati", "Pierre_Richard"]
-    #types = {}
-    #types = list(chain.from_iterable(get_type(n) for n in ressources))
-    #edges = list(chain.from_iterable(build_edges(n) for n in ressources))
-    #g = build_graph(edges)
-    #print(get_paths(g, ressources))
-    #draw_n_intersect(edges)
-    # similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
-    # print(similar_prop)
+
+    resources = ["Jacques_Tati", "Pierre_Richard", "Jean_Dujardin"]
+
+    # #types = {}
+    types = list(chain.from_iterable(get_type_label(n) for n in resources))
+
+    edges = list(chain.from_iterable(build_edges(n) for n in resources))
+    # g = build_graph(edges)
+    # for n in get_paths(g, resources):
+    #     print(n)
+        # print(set(n).intersection(set(resources)))
+
+
+    # draw_n_intersect(edges)
+    similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
+    print(similar_prop)
     # predicatesA =(get_predicate(typesA,similar_prop))
     # predicatesB =(get_predicate(typesB,similar_prop))
-    get_triplets(ressources[0])
+    # get_entity("Jacques_Tati")
