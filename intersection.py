@@ -18,7 +18,6 @@ import matplotlib.pyplot as plt
 def index_type( resource, is_type_of):
     ''''index list and filter'''
     for n in resource:
-        print(n)
         type_v, ns, url = n
         # if type_v == "Thing":
         #     pass
@@ -34,8 +33,6 @@ def get_type_label(resource):
     i.e a dict of label_tag along with their common uris:
     {label_tag: [uri, uri, ...]}
     e.g: Jacques_Tati
-
-
     '''
     ns = "http://dbpedia.org"
     dtype = "resource"
@@ -65,42 +62,41 @@ def get_type_label(resource):
             types_labels.append((type_v, ns ,val))
 
         else:
+
             ns = "/".join(val.split("/")[:-1])
 
             if "entity" in val:
                 #wikidata IDS
                 r = requests.get(val)
                 r_json =r.json()
-                labels = [e["labels"]["en"]["value"] for e in r_json["entities"].values()]
-                for type_v in set(labels):
-                    types_labels.append((type_v, ns ,val))
-                    # if type_v in is_type_of.keys():
-                    #     is_type_of[type_v].append({"url":val,"ns": ns})
-                    # else:
-                    #     is_type_of[type_v] =[{"url":val,"ns": ns}]
+                type_v = [e["labels"]["en"]["value"] for e in r_json["entities"].values()][0].lower()
+                if type_v in is_type_of.keys():
+                    is_type_of[type_v].append({"url":val,"ns": ns})
+                else:
+                    is_type_of[type_v] =[{"url":val,"ns": ns}]
             else:
                 m = re.match('(?P<name>.*?)(?P<id>\d+)$', val)
                 if m is not None:
                     type_v = m.group("name").split("/")[-1]
-                    types_labels.append((type_v, ns ,val))
-                    # if type_v in is_type_of.keys():
-                    #     is_type_of[type_v].append({"url":val,"ns": ns})
-                    # else:
-                    #     is_type_of[type_v] =[{"url":val,"ns": ns}]
+
+                    if type_v in is_type_of.keys():
+                        is_type_of[type_v].append({"url":val,"ns": ns})
+                    else:
+                        is_type_of[type_v] =[{"url":val,"ns": ns}]
 
                 else:
                     if "Yago" in val or "Wikicat" in val:
                         type_v = re.split("/(Yago|Wikicat)", val)[-1]
 
-                        # if type_v in is_type_of.keys():
-                        #     is_type_of[type_v].append({"url":val,"ns": ns})
-                        # else:
-                        #     is_type_of[type_v] =[{"url":val,"ns": ns}]
+                        if type_v in is_type_of.keys():
+                            is_type_of[type_v].append({"url":val,"ns": ns})
+                        else:
+                            is_type_of[type_v] =[{"url":val,"ns": ns}]
                     else:
                         type_v = val.split("/")[-1]
                         types_labels.append((type_v, ns ,val))
-    is_type_of = {}
-    is_type_of = index_type(types_labels, is_type_of)
+
+
     return is_type_of
 
 def get_tags_d(types):
@@ -185,18 +181,17 @@ def central_nodes(g, nb_nodes = 3):
     return [n [1] for n in degrees[:nb_nodes]]
 
 def get_paths(g, nodes):
-    print(nodes)
     if nx.has_path(g, nodes[0], nodes[1]):
         commons_tags = [n for n in nx.all_simple_paths(g, nodes[0],nodes[1])]
         return commons_tags
     else: return None
 
-def draw_n_intersect(edges):
+def draw_n_intersect(nodes, edges):
     '''find the intersection between n nodes'''
     g = nx.Graph()
     for e in edges:
         g.add_edge(e[0],e[1], weight=e[2])
-    nodes = central_nodes(g,2)
+    nodes = central_nodes(g,len(nodes))
     #print(nodes)
 
     node_path= list(set(chain.from_iterable(get_paths(g, nodes))))
@@ -225,8 +220,9 @@ def draw_n_intersect(edges):
     #nx.draw(g, with_labels=True)
 
     # nx.draw_networkx_nodes(g, pos=pos, node_color=node_colors, with_labels=True)
-    nx.draw_networkx_edges(g, pos=pos)
     nx.draw_networkx_labels(g,pos,labels,font_size=10)
+    nx.draw_networkx_edges(g, pos=pos)
+
     plt.savefig("insersection.png") # save as png
     plt.show()
 
@@ -239,10 +235,54 @@ def draw_intersect(edgesA, edgesB):
     nx.draw(g, with_labels=True)
     plt.savefig("insersection.png") # save as png
     plt.show()
-def get_entity(resource):
+
+def get_category(resource, lang="en"):
     '''
     given a resource expressed in dbpedia
-    return every expressed type
+    return the set of entity label along
+    with its definition in targeted language
+    e.g: Jacques_Tati, "fr"
+
+    '''
+
+    q = '''
+    prefix db-owl: <http://dbpedia.org/ontology/>
+    SELECT ?type WHERE {
+    <http://dbpedia.org/resource/%s> rdf:type ?type .
+    }
+    ''' %(resource)
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery(q)
+    sparql.setReturnFormat(JSON)
+    sparql.setQuery(q)
+    sparql.setReturnFormat(JSON)
+    tags = []
+    definitions = []
+    results = sparql.query().convert()
+    nb_results = len(results["results"]["bindings"])
+    if nb_results == 0:
+        raise Exception("No results found for %s" %resource)
+    for r in results["results"]["bindings"]:
+        val = r["type"]["value"]
+        if not "entity" in val:
+            pass
+        else:
+            #wikidata IDS equivalent of (entities| Notice AUT| categories in WIKIDATA)
+            rq = requests.get(val)
+            r_json = rq.json()
+
+            for e in r_json["entities"].values():
+                for l, v in e["aliases"].items():
+                    if l.startswith(lang):
+
+                        tags.extend([n["value"] for n in v])
+    return tags
+
+def wikicat(resource):
+    '''
+    given a resource expressed in wikicat
+    return entity definition equivalent of a category in wikidata
+    and aliases e.g tag synonym
     i.e a dict of label_tag along with their common uris:
     {label_tag: [uri, uri, ...]}
     e.g: Jacques_Tati
@@ -263,55 +303,42 @@ def get_entity(resource):
     if nb_results == 0:
         raise Exception("No results found for %s" %resource)
     entities = []
+    definitions = {}
+    translations = {}
+    entities_eq = {}
     for r in results["results"]["bindings"]:
         val = r["type"]["value"]
         if "entity" in val:
-            #wikidata IDS
-            r = requests.get(val)
-            r_json =r.json()
-            # print(r_json["entities"].values())
-            # break
-
+            #wikidata IDS equivalent of (entities| Notice AUT)
+            rq = requests.get(val)
+            r_json = rq.json()
             for e in r_json["entities"].values():
-                # print(e["aliases"])
-                # print(e["aliases"]["fr"])
-                # print(e["descriptions"]["fr"])
+                entity_id = e["title"]
                 #synonymes dans toutes les langues
                 for lang, v in e["aliases"].items():
-                    print(lang)
-                #     for syn in v:
-                #         print (syn["value"], syn["language"])
+                    for syn in v:
+                        entities.append((entity_id, syn["value"], syn["language"], "translation"))
+                        try:
+                            if syn["value"] not in translations[syn["language"]]:
+                                translations[syn["language"]].append(syn["value"])
+                        except KeyError:
+                            translations[syn["language"]] = [syn["value"]]
                 #definition dans toutes les langues
-                # print (e["descriptions"])
-                # for lang, v in e["descriptions"].items():
-                #     print(lang)
-                #     print(v)
-                    # for defn in v:
-                    #     print (defn["value"], defn["language"])
-                # #['id', 'descriptions', 'aliases', 'type', 'sitelinks', 'lastrevid', 'modified', 'pageid', 'title', 'labels', 'ns', 'claims']
-                # for lang, v in e["aliases"].items():
-        else:
-            print (r)
+                for lang, v in e["descriptions"].items():
+                    # entities.append((entity_id, v["value"], v["language"], "definition"))
+                    try:
+                        if v["value"] not in definitions[v["language"]]:
+                            definitions[v["language"]].append(v["value"])
+                    except KeyError:
+                        definitions[v["language"]] = [v["value"]]
+
+
 
 if __name__ == "__main__":
     from itertools import chain
 
-
-    resources = ["Jacques_Tati", "Pierre_Richard", "Jean_Dujardin"]
-
-    # #types = {}
+    resources = ["Jacques_Tati", "Pierre_Richard", "Molière"]
     types = list(chain.from_iterable(get_type_label(n) for n in resources))
-
     edges = list(chain.from_iterable(build_edges(n) for n in resources))
-    # g = build_graph(edges)
-    # for n in get_paths(g, resources):
-    #     print(n)
-        # print(set(n).intersection(set(resources)))
-
-
-    # draw_n_intersect(edges)
-    similar_prop = get_similar_tags(tagsA, tagsB, offset=5)
-    print(similar_prop)
-    # predicatesA =(get_predicate(typesA,similar_prop))
-    # predicatesB =(get_predicate(typesB,similar_prop))
-    # get_entity("Jacques_Tati")
+    g = build_graph(edges)
+    draw_n_intersect(resources, edges)
