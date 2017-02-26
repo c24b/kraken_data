@@ -95,8 +95,6 @@ def get_type_label(resource):
                     else:
                         type_v = val.split("/")[-1]
                         types_labels.append((type_v, ns ,val))
-
-
     return is_type_of
 
 def get_tags_d(types):
@@ -157,46 +155,39 @@ def get_predicate(typesA,tags):
             if t in k.lower():
                 predicates[t].extend(typesA[k])
     return(predicates)
+
 def build_edges(resource="Louis_de_Funès"):
     types = get_type_label(resource)
     tags = get_tags(types)
     edges = [(resource,t,w) for t,w in tags.items() if w > 1]
     return edges
 
-def build_graph(edges):
-    '''graph it'''
-    g = nx.Graph()
-    for n in edges:
-        g.add_edge(n[0],n[1], weight=n[2])
-    return g
 
-def draw_graph(g):
-    nx.draw(g, with_labels=True)
-    plt.savefig("testA.png") # save as png
-    plt.show()
+# def central_nodes(g, nb_nodes = 3):
+#     '''identify central points = those who have more links'''
+#     degrees = sorted([(g.degree(node), node) for node in g.nodes()], reverse=True)
+#     return [n [1] for n in degrees[:nb_nodes]]
+#
+# def get_paths(g, nodes):
+#     if nx.has_path(g, nodes[0], nodes[1]):
+#         commons_tags = [n for n in nx.all_simple_paths(g, nodes[0],nodes[1])]
+#         return commons_tags
+#     else: return None
 
-def central_nodes(g, nb_nodes = 3):
-    '''identify central points = those who have more links'''
-    degrees = sorted([(g.degree(node), node) for node in g.nodes()], reverse=True)
-    return [n [1] for n in degrees[:nb_nodes]]
 
-def get_paths(g, nodes):
-    if nx.has_path(g, nodes[0], nodes[1]):
-        commons_tags = [n for n in nx.all_simple_paths(g, nodes[0],nodes[1])]
-        return commons_tags
-    else: return None
+def get_commons_tags(g, resources):
+    '''get commons tags between the resources'''
+    return [k for k,v in nx.degree(g).items() if v>=len(resources) and k not in resources]
 
-def draw_n_intersect(nodes, edges):
-    '''find the intersection between n nodes'''
-    g = nx.Graph()
+def build_graph(resources,edges):
+    g2 = nx.Graph()
+
     for e in edges:
-        g.add_edge(e[0],e[1], weight=e[2])
-    nodes = central_nodes(g,len(nodes))
-    #print(nodes)
-
-    node_path= list(set(chain.from_iterable(get_paths(g, nodes))))
-    node_colors = []
-    labels = {}
+        # print(e[0])
+        g2.add_edge(e[0], e[1])
+    return g2
+def draw_graph(g, resources):
+    node_path = get_commons_tags(g,resources)
     pos = nx.spring_layout(g)
     nx.draw_networkx_nodes(g,pos,
                        nodelist=g.nodes(),
@@ -209,32 +200,20 @@ def draw_n_intersect(nodes, edges):
                        node_size=300,
                    alpha=0.7, with_labels=True)
     nx.draw_networkx_nodes(g,pos,
-                       nodelist=nodes,
+                       nodelist=resources,
                        node_color='r',
                        node_size=500,
                    alpha=0.8, with_labels=True)
-
+    labels = {}
     for i,n in enumerate(g.nodes()):
         labels[n] = n
-    #node_colors = ["blue" if n in node_path  else "grey" ]
-    #nx.draw(g, with_labels=True)
-
-    # nx.draw_networkx_nodes(g, pos=pos, node_color=node_colors, with_labels=True)
     nx.draw_networkx_labels(g,pos,labels,font_size=10)
     nx.draw_networkx_edges(g, pos=pos)
 
-    plt.savefig("insersection.png") # save as png
+    plt.savefig("digraph.png") # save as png
     plt.show()
+    return g
 
-def draw_intersect(edgesA, edgesB):
-    g = nx.Graph()
-    for n in edgesA:
-        g.add_edge(n[0],n[1], weight=n[2])
-    for n in edgesB:
-        g.add_edge(n[0],n[1], weight=n[2])
-    nx.draw(g, with_labels=True)
-    plt.savefig("insersection.png") # save as png
-    plt.show()
 
 def get_category(resource, lang="en"):
     '''
@@ -332,13 +311,41 @@ def wikicat(resource):
                     except KeyError:
                         definitions[v["language"]] = [v["value"]]
 
+def get_types_d(resources):
+    '''concatenate dict of label for n resources'''
+    #chain.from_iterable(get_type_label(n) for n in resources)
+    #gave me a list I want a dict
+    types = {}
+    for r in resources:
+        for k, v in get_type_label(r).items():
+            try:
+                types[k].extend(v)
+            except KeyError:
+                types[k] = [v]
+        types.update(get_type_label(r))
+
+    return types
+
+def get_edges(resources):
+    return list(chain.from_iterable(build_edges(n) for n in resources))
 
 
 if __name__ == "__main__":
     from itertools import chain
-
     resources = ["Jacques_Tati", "Pierre_Richard", "Molière"]
-    types = list(chain.from_iterable(get_type_label(n) for n in resources))
-    edges = list(chain.from_iterable(build_edges(n) for n in resources))
-    g = build_graph(edges)
-    draw_n_intersect(resources, edges)
+    types = get_types_d(resources)
+    edges = get_edges(resources)
+
+    #print(types)
+    # types = list(chain.from_iterable(get_type_label(n) for n in resources))
+
+    # edges = list(chain.from_iterable(build_edges(n) for n in resources))
+
+    g = build_graph(resources, edges)
+    draw_graph(g, resources)
+    #next step: backtrack
+    #get the common tags
+    commons_tags = get_commons_tags(g,resources)
+    #for each tag find out where tag is linked to label
+    # for tag in commons_tags:
+    #     get_types(tag)
