@@ -41,7 +41,8 @@ def index_type( resource, is_type_of):
 def get_type(resource):
     '''
     given a single resource
-    return every predicate 
+    return every predicate
+    in a dict
     e.g: Jacques_Tati
     '''
     ns = "http://dbpedia.org"
@@ -338,13 +339,13 @@ def stamp_store(dict_items):
 if __name__ == "__main__":
     from itertools import chain
     resources = ["Jacques_Tati", "Pierre_Richard", "Molière"]
-    print get_type(resource[0])
+    print(get_type(resource[0]))
     #types = get_types_d(resources)
-    stamp_store(types)
-    #print(types.items())
-    tags_d = get_tags_d(types)
-    for k, v in tags_d.items():
-        print(k,v)
+    # stamp_store(types)
+    # #print(types.items())
+    # tags_d = get_tags_d(types)
+    # for k, v in tags_d.items():
+    #     print(k,v)
 
     # print(tags_d.items())
 
