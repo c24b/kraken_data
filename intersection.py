@@ -14,9 +14,20 @@ from collections import Counter, defaultdict
 import nltk
 import networkx as nx
 import matplotlib.pyplot as plt
+from pymongo import MongoClient
 
 def index_type( resource, is_type_of):
-    ''''index list and filter'''
+    ''''index list and filter e.g
+    {u'Musician:[
+                {   'url': u'http://dbpedia.org/class/yago/Musician110339966',
+                    'ns': u'http://dbpedia.org/class/yago'},
+                {   'url': u'http://dbpedia.org/class/yago/Musician110340312',
+                    'ns': u'http://dbpedia.org/class/yago'}
+                ],
+    u'FrenchSingers':[
+                {'url': u'http://dbpedia.org/class/yago/WikicatFrenchSingers', 'ns': u'http://dbpedia.org/class/yago'}]
+    }
+    '''
     for n in resource:
         type_v, ns, url = n
         # if type_v == "Thing":
@@ -26,12 +37,11 @@ def index_type( resource, is_type_of):
         else:
             is_type_of[type_v] = [{"ns":ns, "url": url}]
     return is_type_of
-def get_type_label(resource):
+
+def get_type(resource):
     '''
-    given a resource expressed in dbpedia
-    return every expressed type (entities, resources, ontologies)
-    i.e a dict of label_tag along with their common uris:
-    {label_tag: [uri, uri, ...]}
+    given a single resource
+    return every predicate 
     e.g: Jacques_Tati
     '''
     ns = "http://dbpedia.org"
@@ -52,17 +62,15 @@ def get_type_label(resource):
         raise Exception("No results found for %s" %resource)
     type_urls = [r["type"]["value"] for r in results["results"]["bindings"]]
 
-    types_labels = []
     for val in type_urls:
     # for r in results["results"]["bindings"]:
         if "#" in val:
             ns = val.split("#")[0]
             type_v = val.split("#")[-1]
             type_v = re.sub('s$', '', type_v)
-            types_labels.append((type_v, ns ,val))
-
+            # types_labels.append((type_v, ns ,val))
+            is_type_of[type_v].append({"url":val,"ns": ns})
         else:
-
             ns = "/".join(val.split("/")[:-1])
 
             if "entity" in val:
@@ -94,7 +102,12 @@ def get_type_label(resource):
                             is_type_of[type_v] =[{"url":val,"ns": ns}]
                     else:
                         type_v = val.split("/")[-1]
-                        types_labels.append((type_v, ns ,val))
+                        # print(type_v)
+                        # types_labels.append((type_v, ns ,val))
+                        if type_v in is_type_of.keys():
+                            is_type_of[type_v].append({"url":val,"ns": ns})
+                        else:
+                            is_type_of[type_v] =[{"url":val,"ns": ns}]
     return is_type_of
 
 def get_tags_d(types):
@@ -103,7 +116,8 @@ def get_tags_d(types):
     wnl = WordNetLemmatizer()
     from nltk.corpus import stopwords
     tags = get_tags(types)
-    tags_d = defaultdict.from_keys(tags, [])
+    print(tags)
+    tags_d = defaultdict.fromkeys(tags, [])
     for k,v in types.items():
         for n in re.findall('[A-Z][^A-Z]*', k):
             sing = wnl.lemmatize(n.lower())
@@ -161,18 +175,6 @@ def build_edges(resource="Louis_de_Funès"):
     tags = get_tags(types)
     edges = [(resource,t,w) for t,w in tags.items() if w > 1]
     return edges
-
-
-# def central_nodes(g, nb_nodes = 3):
-#     '''identify central points = those who have more links'''
-#     degrees = sorted([(g.degree(node), node) for node in g.nodes()], reverse=True)
-#     return [n [1] for n in degrees[:nb_nodes]]
-#
-# def get_paths(g, nodes):
-#     if nx.has_path(g, nodes[0], nodes[1]):
-#         commons_tags = [n for n in nx.all_simple_paths(g, nodes[0],nodes[1])]
-#         return commons_tags
-#     else: return None
 
 
 def get_commons_tags(g, resources):
@@ -328,24 +330,44 @@ def get_types_d(resources):
 
 def get_edges(resources):
     return list(chain.from_iterable(build_edges(n) for n in resources))
-
+def stamp_store(dict_items):
+    client = MongoClient()
+    db = client.kraken
+    db.predicates.insert(dict_items)
 
 if __name__ == "__main__":
     from itertools import chain
     resources = ["Jacques_Tati", "Pierre_Richard", "Molière"]
-    types = get_types_d(resources)
-    edges = get_edges(resources)
+    print get_type(resource[0])
+    #types = get_types_d(resources)
+    stamp_store(types)
+    #print(types.items())
+    tags_d = get_tags_d(types)
+    for k, v in tags_d.items():
+        print(k,v)
+
+    # print(tags_d.items())
+
+    #edges = get_edges(resources)
 
     #print(types)
     # types = list(chain.from_iterable(get_type_label(n) for n in resources))
 
     # edges = list(chain.from_iterable(build_edges(n) for n in resources))
 
-    g = build_graph(resources, edges)
-    draw_graph(g, resources)
+    # g = build_graph(resources, edges)
+    # draw_graph(g, resources)
     #next step: backtrack
     #get the common tags
-    commons_tags = get_commons_tags(g,resources)
+    # commons_tags = get_commons_tags(g,resources)
     #for each tag find out where tag is linked to label
     # for tag in commons_tags:
+    #     for t in tags_d[tag]:
+    #         print(t)
+    #
+    #     break
+    # note pour plus tard: dictionnaire de tags urls
+    # est mal créé:
+    # - liste au lieu de set
+    # - recuperer uniquement le namespace ns
     #     get_types(tag)
