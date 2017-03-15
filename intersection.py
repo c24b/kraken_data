@@ -53,12 +53,6 @@ def get_types_d(resource):
             ns = val.split("#")[0]
             type_v = val.split("#")[-1]
             type_v = re.sub('s$', '', type_v)
-            # types_labels.append((type_v, ns ,val))
-            # if type_v in is_type_of.keys():
-            #     is_type_of[type_v].append({"url":val,"ns": ns})
-            #
-            # else:
-            #     is_type_of[type_v] = [{"url":val,"ns": ns}]
 
         else:
             ns = "/".join(val.split("/")[:-1])
@@ -68,44 +62,23 @@ def get_types_d(resource):
                 r = requests.get(val)
                 r_json =r.json()
                 type_v = [e["labels"]["en"]["value"] for e in r_json["entities"].values()][0].lower()
-                # if type_v in is_type_of.keys():
-                #     is_type_of[type_v].append({"url":val,"ns": ns})
-                # else:
-                #     is_type_of[type_v] =[{"url":val,"ns": ns}]
             else:
                 m = re.match('(?P<name>.*?)(?P<id>\d+)$', val)
                 if m is not None:
                     type_v = m.group("name").split("/")[-1]
-
-                    # if type_v in is_type_of.keys():
-                    #     is_type_of[type_v].append({"url":val,"ns": ns})
-                    # else:
-                    #     is_type_of[type_v] =[{"url":val,"ns": ns}]
-
                 else:
                     if "Yago" in val or "Wikicat" in val:
                         type_v = re.split("/(Yago|Wikicat)", val)[-1]
-
-                        # if type_v in is_type_of.keys():
-                        #     is_type_of[type_v].append({"url":val,"ns": ns})
-                        # else:
-                        #     is_type_of[type_v] =[{"url":val,"ns": ns}]
                     else:
                         type_v = val.split("/")[-1]
-                        # print(type_v)
-                        # types_labels.append((type_v, ns ,val))
-                        # if type_v in is_type_of.keys():
-                        #     is_type_of[type_v].append({"url":val,"ns": ns})
-                        # else:
-                        #     is_type_of[type_v] =[{"url":val,"ns": ns}]
+        #finally mapping
         if type_v in is_type_of.keys():
             is_type_of[type_v]["urls"].append(val)
             is_type_of[type_v]["ns"].append(ns)
-        #    is_type_of[type_v]["resource"] = resource
         else:
             is_type_of[type_v] = {"urls": [val], "ns":[ns]}
-
         is_type_of[type_v]["resource"] = resource
+
     return is_type_of
 
 def get_tags_d(resource_dict):
@@ -148,7 +121,6 @@ def get_mtypes_d(resources):
     data = [get_types_d(r) for r in resources]
 
     # list_types = map(lambda x:get_types_d(x), resources)
-    # types =  {"_total": len(resources)}
     types = {}
     for d in data:
         for k, v in d.items():
@@ -163,6 +135,66 @@ def get_mtypes_d(resources):
     for k, v in types.items():
         types[k]["_score"] = len(types[k]["resources"])
     return types
+
+def get_common_types(resources, types):
+    '''Level 0 of similarity
+    2 resources are common when they simply share the same type
+    '''
+    # for k,v in types.items():
+    #     if v["_score"] > 1:
+    #         print("%s have %s in common"%(" & ".join(v["resources"]),k))
+    return [(v["resources"], k) for k,v in types.items() if v["_score"] > 1]
+
+def build_graph_cotypes(resources, types):
+    '''Show the graph of common types
+    label are nodes represented in blue
+    and resources are in red
+    '''
+    co_types = get_common_types(resources, types)
+    g = nx.DiGraph()
+
+    nodes = resources
+    targets = [n[1] for n  in co_types]
+
+    for nodes, edge in co_types:
+
+        for node in nodes:
+            g.add_edge(node, edge)
+    # #if you want to SHOW the labels on nodes !!!
+    # labels = {}
+    # for i,n in enumerate(g.nodes()):
+    #     print(i, n)
+    #     labels[i] = n
+
+    pos = nx.spring_layout(g)
+
+    # nx.draw_networkx_nodes(g,pos,
+    #                        nodelist=resources,
+    #                        node_color='red')
+    # #
+    # nx.draw_networkx_nodes(g,pos,
+    #                        nodelist=targets,
+    #                        node_color='blue')
+    #
+    #
+    # nx.draw_networkx_labels(g,pos,labels,font_size=10)
+    # nx.draw_networkx_edges(g, pos=pos)
+    nx.draw(g,pos, with_labels = True)
+    # nx.draw_networkx_edges(g, pos=pos, edge_labels = elabels)
+    #
+    plt.savefig("level0.png") # save as png
+    plt.show()
+
+
+
+# def build_graph(resources,edges):
+#     g2 = nx.Graph()
+#
+#     for e in edges:
+#         # print(e[0])
+#         g2.add_edge(e[0], e[1])
+#     return g2
+
 
 # def get_tags_freq(types):
 #     '''extract tags from description'''
@@ -226,6 +258,7 @@ def get_mtypes_d(resources):
 #         # print(e[0])
 #         g2.add_edge(e[0], e[1])
 #     return g2
+
 # def draw_graph(g, resources):
 #     node_path = get_commons_tags(g,resources)
 #     pos = nx.spring_layout(g)
@@ -332,13 +365,14 @@ def get_mtypes_d(resources):
 
 if __name__ == "__main__":
     from itertools import chain
-    resources = ["Jacques_Tati", "Pierre_Richard", "Molière"]
+    resources = ["Jacques_Tati", "Pierre_Richard", "Jean_Dujardin"]
     # unique test
     # types = get_types_d(resources[0])
     # multiple
     types = get_mtypes_d(resources)
-    for k,v in types.items():
-        print(k, v["_score"])
+    #common predicate
+    co_types = get_common_types(resources, types)
+    build_graph_cotypes(resources, types)
         # break
     # tags_d = get_tags_d(types)
 
