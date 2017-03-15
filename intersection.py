@@ -160,12 +160,6 @@ def build_graph_cotypes(resources, types):
 
         for node in nodes:
             g.add_edge(node, edge)
-    # #if you want to SHOW the labels on nodes !!!
-    # labels = {}
-    # for i,n in enumerate(g.nodes()):
-    #     print(i, n)
-    #     labels[i] = n
-
     pos = nx.spring_layout(g)
 
     # nx.draw_networkx_nodes(g,pos,
@@ -177,24 +171,10 @@ def build_graph_cotypes(resources, types):
     #                        node_color='blue')
     #
     #
-    # nx.draw_networkx_labels(g,pos,labels,font_size=10)
-    # nx.draw_networkx_edges(g, pos=pos)
+
     nx.draw(g,pos, with_labels = True)
-    # nx.draw_networkx_edges(g, pos=pos, edge_labels = elabels)
-    #
     plt.savefig("level0.png") # save as png
     plt.show()
-
-
-
-# def build_graph(resources,edges):
-#     g2 = nx.Graph()
-#
-#     for e in edges:
-#         # print(e[0])
-#         g2.add_edge(e[0], e[1])
-#     return g2
-
 
 # def get_tags_freq(types):
 #     '''extract tags from description'''
@@ -287,60 +267,60 @@ def build_graph_cotypes(resources, types):
 #     plt.show()
 #     return g
 
-# def wikicat(resource):
-#     '''
-#     given a resource expressed in wikicat
-#     return entity definition equivalent of a category in wikidata
-#     and aliases e.g tag synonym
-#     i.e a dict of label_tag along with their common uris:
-#     {label_tag: [uri, uri, ...]}
-#     e.g: Jacques_Tati
-#     '''
-#
-#     q = '''
-#     prefix db-owl: <http://dbpedia.org/ontology/>
-#     SELECT ?type WHERE {
-#     <http://dbpedia.org/resource/%s> rdf:type ?type .
-#     }
-#     ''' %(resource)
-#     sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-#     sparql.setQuery(q)
-#     sparql.setReturnFormat(JSON)
-#     is_type_of = {}
-#     results = sparql.query().convert()
-#     nb_results = len(results["results"]["bindings"])
-#     if nb_results == 0:
-#         raise Exception("No results found for %s" %resource)
-#     entities = []
-#     definitions = {}
-#     translations = {}
-#     entities_eq = {}
-#     for r in results["results"]["bindings"]:
-#         val = r["type"]["value"]
-#         if "entity" in val:
-#             #wikidata IDS equivalent of (entities| Notice AUT)
-#             rq = requests.get(val)
-#             r_json = rq.json()
-#             for e in r_json["entities"].values():
-#                 entity_id = e["title"]
-#                 #synonymes dans toutes les langues
-#                 for lang, v in e["aliases"].items():
-#                     for syn in v:
-#                         entities.append((entity_id, syn["value"], syn["language"], "translation"))
-#                         try:
-#                             if syn["value"] not in translations[syn["language"]]:
-#                                 translations[syn["language"]].append(syn["value"])
-#                         except KeyError:
-#                             translations[syn["language"]] = [syn["value"]]
-#                 #definition dans toutes les langues
-#                 for lang, v in e["descriptions"].items():
-#                     # entities.append((entity_id, v["value"], v["language"], "definition"))
-#                     try:
-#                         if v["value"] not in definitions[v["language"]]:
-#                             definitions[v["language"]].append(v["value"])
-#                     except KeyError:
-#                         definitions[v["language"]] = [v["value"]]
-#
+def wikicat(resource):
+    '''
+    given a resource expressed in wikicat
+    return entity definition equivalent of a category in wikidata
+    and aliases e.g tag synonym
+    i.e a dict of label_tag along with their common uris:
+    {label_tag: [uri, uri, ...]}
+    e.g: Jacques_Tati
+    '''
+
+    q = '''
+    prefix db-owl: <http://dbpedia.org/ontology/>
+    SELECT ?type WHERE {
+    <http://dbpedia.org/resource/%s> rdf:type ?type .
+    }
+    ''' %(resource)
+    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+    sparql.setQuery(q)
+    sparql.setReturnFormat(JSON)
+    is_type_of = {}
+    results = sparql.query().convert()
+    nb_results = len(results["results"]["bindings"])
+    if nb_results == 0:
+        raise Exception("No results found for %s" %resource)
+    entities = []
+    definitions = {}
+    translations = {}
+    entities_eq = {}
+    for r in results["results"]["bindings"]:
+        val = r["type"]["value"]
+        if "entity" in val:
+            #wikidata IDS equivalent of (entities| Notice AUT)
+            rq = requests.get(val)
+            r_json = rq.json()
+            for e in r_json["entities"].values():
+                entity_id = e["title"]
+                #synonymes dans toutes les langues
+                for lang, v in e["aliases"].items():
+                    for syn in v:
+                        entities.append((entity_id, syn["value"], syn["language"], "translation"))
+                        try:
+                            if syn["value"] not in translations[syn["language"]]:
+                                translations[syn["language"]].append(syn["value"])
+                        except KeyError:
+                            translations[syn["language"]] = [syn["value"]]
+                #definition dans toutes les langues
+                for lang, v in e["descriptions"].items():
+                    # entities.append((entity_id, v["value"], v["language"], "definition"))
+                    try:
+                        if v["value"] not in definitions[v["language"]]:
+                            definitions[v["language"]].append(v["value"])
+                    except KeyError:
+                        definitions[v["language"]] = [v["value"]]
+
 # def get_types_d(resources):
 #     '''concatenate dict of label for n resources'''
 #     #chain.from_iterable(get_type_label(n) for n in resources)
@@ -370,34 +350,9 @@ if __name__ == "__main__":
     # types = get_types_d(resources[0])
     # multiple
     types = get_mtypes_d(resources)
-    #common predicate
+    # common predicate: level 0 matching common properties
     co_types = get_common_types(resources, types)
-    build_graph_cotypes(resources, types)
-        # break
+    #build_graph_cotypes(resources, types)
     # tags_d = get_tags_d(types)
-
-    # for k, v in tags_d.items():
-    #     print(k, v)
-    # for k, v in tags_d.items():
-    #     print(k,v)
-
-    # print(tags_d.items())
-
-    #edges = get_edges(resources)
-
-    #print(types)
-    # types = list(chain.from_iterable(get_type_label(n) for n in resources))
-
-    # edges = list(chain.from_iterable(build_edges(n) for n in resources))
-
-    # g = build_graph(resources, edges)
-    # draw_graph(g, resources)
-    #next step: backtrack
     #get the common tags
     # commons_tags = get_commons_tags(g,resources)
-    #for each tag find out where tag is linked to label
-    # for tag in commons_tags:
-    #     for t in tags_d[tag]:
-    #         print(t)
-    #
-    #     break
