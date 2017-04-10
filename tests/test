@@ -1,0 +1,6 @@
+tu y vas en aveugle pour l'itération 0
+tu prends par exemple 10 tranches de données réparties sur l'ensemble
+genre 10k par 10k
+ça te donne 100k à traiter
+ensuite tu randomises une fois sur 2
+un coup tu décales ta sélection un coup tu pioche au hasard 10 fois
