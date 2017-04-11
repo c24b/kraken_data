@@ -26,6 +26,6 @@ if __name__ == "__main__":
 
     # common tags level 0 matching common properties
     tags_d = get_tags_d(types)
-    export(tags_d, "tags_d.json")
+    # export(tags_d, "tags_d.json")
     #get the common tags
     # commons_tags = get_commons_tags(g,resources)
