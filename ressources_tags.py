@@ -4,6 +4,7 @@ import networkx as nx
 from collections import Counter, defaultdict
 import re
 from nltk.corpus import stopwords
+CAMELCASE = r'([.*?]?(\-)(?=[A-Z]|$|-)|[A-Z][a-z]*)'
 
 def get_tags_d(resource_dict):
     '''given a single resource_dict of types
@@ -11,31 +12,42 @@ def get_tags_d(resource_dict):
     and a list of corresponding url and ns and occurence
     e.g: Jacques_Tati
     '''
-    # retrieve the list of tags from keys
 
     wnl = WordNetLemmatizer()
-
     tags = []
-    tag_dict = {}
+    tags_d = {}
     for k,v in resource_dict.items():
-        for n in re.findall('[A-Z][^A-Z]*', k):
-            sing = wnl.lemmatize(n.lower())
-            # if sing not in stopwords.words('english'):
-            if sing not in tag_dict.keys():
-                print(sing, k, v)
-            # try:
-                tag_dict[sing] = {"predicates": [k],
-                                  "urls": [n["url"] for n in v],
-                                  "ns": [n["ns"] for n in v],
-                                  "count":1
-                                }
-            else:
-            # except KeyError:
-                tag_dict[sing]["predicates"].append(k)
-                tag_dict[sing]["urls"].extend([n["url"] for n in v])
-                tag_dict[sing]["ns"].extend([n["ns"] for n in v])
-                tag_dict[sing]["count"] += 1
-    return tag_dict
+        tags = re.findall(CAMELCASE, k)
+        print(k,tags)
+        # for n in re.findall(CAMELCASE, k):
+        #     print(n)
+        #     sing = wnl.lemmatize(n.lower())
+        #     if sing not in stopwords.words('english'):
+        #         print(k, sing, v["resources"])
+                # try:
+                #     tags_d[sing]["predicates"].append(k)
+                # except:
+                #     tags_d[sing] = {"predicates": k}
+
+'''
+        #         if sing not in tags_d.keys():
+        #         # try:
+        #             tags_d[sing] = {"predicates": [k],
+        #                              "urls": tag_urls,
+        #                              "ns": tag_ns,
+        #                               "count":1,
+        #                               "resources": [v["resources"]]
+        #                             }
+        #
+        #         else:
+        #         # except KeyError:
+        #             tags_d[sing]["predicates"].append(k)
+        #             tags_d[sing]["urls"].extend(tag_urls)
+        #             tags_d[sing]["ns"].extend(tag_ns)
+        #             tags_d[sing]["count"] += 1
+        #             tags_d[sing]["resources"].extend(v["resources"])
+'''
+        # return tags_d
 
 def get_tags_freq(types):
     '''extract tags from types_d return Counter'''

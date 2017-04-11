@@ -11,10 +11,6 @@ import requests
 from SPARQLWrapper import SPARQLWrapper, JSON
 from collections import Counter, defaultdict
 
-from pymongo import MongoClient
-
-
-
 def get_types_d(resource):
     '''
     given a single resource
@@ -50,10 +46,8 @@ def get_types_d(resource):
             ns = val.split("#")[0]
             type_v = val.split("#")[-1]
             type_v = re.sub('s$', '', type_v)
-
         else:
             ns = "/".join(val.split("/")[:-1])
-
             if "entity" in val:
                 #wikidata IDS
                 r = requests.get(val)
@@ -75,7 +69,6 @@ def get_types_d(resource):
         else:
             is_type_of[type_v] = {"urls": [val], "ns":[ns]}
         is_type_of[type_v]["resource"] = resource
-
     return is_type_of
 
 def get_mtypes_d(resources):
