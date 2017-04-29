@@ -28,5 +28,16 @@ Le modèle BNF
 ![](http://data.bnf.fr/images/exemple_graphe_1.jpg)
 
 ---
+
+Il faut donc connaitre le vocabulaire et le modèle **AVANT** de pouvoir faire de la découverte de connaissance.
+
+---
+💡 Une idée?
+
+ **Décrire les relations entre deux ressources en se servant des prédicats comme des étiquettes**
+
+---
+
 Décrire un ressource a partir de ses prédicats
+
 ![](./examples/testA.png)
