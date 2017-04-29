@@ -1,0 +1,1044 @@
+{
+    "20th-centuryActors": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Wikicat20th-centuryActors"
+        ]
+    },
+    "20th-centuryFrenchMaleActors": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Wikicat20th-centuryFrenchMaleActors"
+        ]
+    },
+    "21st-centuryActors": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Wikicat21st-centuryActors"
+        ]
+    },
+    "21st-centuryFrenchMaleActors": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Wikicat21st-centuryFrenchMaleActors"
+        ]
+    },
+    "Actor": {
+        "_score": 3,
+        "ns": [
+            "http://umbel.org/umbel/rc",
+            "http://dbpedia.org/class/yago",
+            "http://umbel.org/umbel/rc",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://umbel.org/umbel/rc/Actor",
+            "http://dbpedia.org/class/yago/Actor109765278",
+            "http://umbel.org/umbel/rc/Actor",
+            "http://dbpedia.org/class/yago/Actor109765278",
+            "http://dbpedia.org/class/yago/Actor109765278"
+        ]
+    },
+    "Actors": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatActors",
+            "http://dbpedia.org/class/yago/WikicatActors",
+            "http://dbpedia.org/class/yago/WikicatActors"
+        ]
+    },
+    "Agent": {
+        "_score": 3,
+        "ns": [
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl",
+            "http://dbpedia.org/ontology",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl",
+            "http://dbpedia.org/ontology",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl",
+            "http://dbpedia.org/ontology"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent",
+            "http://dbpedia.org/ontology/Agent",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent",
+            "http://dbpedia.org/ontology/Agent",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#Agent",
+            "http://dbpedia.org/ontology/Agent"
+        ]
+    },
+    "Agriculturist": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Agriculturist109779790"
+        ]
+    },
+    "Artist": {
+        "_score": 3,
+        "ns": [
+            "http://umbel.org/umbel/rc",
+            "http://umbel.org/umbel/rc",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://umbel.org/umbel/rc/Artist",
+            "http://umbel.org/umbel/rc/Artist",
+            "http://dbpedia.org/class/yago/Artist109812338",
+            "http://dbpedia.org/class/yago/Artist109812338"
+        ]
+    },
+    "CausalAgent": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/CausalAgent100007347",
+            "http://dbpedia.org/class/yago/CausalAgent100007347",
+            "http://dbpedia.org/class/yago/CausalAgent100007347"
+        ]
+    },
+    "Comedian": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Comedian109940146",
+            "http://dbpedia.org/class/yago/Comedian109940146",
+            "http://dbpedia.org/class/yago/Comedian109940146"
+        ]
+    },
+    "Comedians": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatComedians",
+            "http://dbpedia.org/class/yago/WikicatComedians",
+            "http://dbpedia.org/class/yago/WikicatComedians"
+        ]
+    },
+    "Communicator": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Communicator109610660",
+            "http://dbpedia.org/class/yago/Communicator109610660",
+            "http://dbpedia.org/class/yago/Communicator109610660"
+        ]
+    },
+    "Creator": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Creator109614315",
+            "http://dbpedia.org/class/yago/Creator109614315",
+            "http://dbpedia.org/class/yago/Creator109614315"
+        ]
+    },
+    "Entertainer": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Entertainer109616922",
+            "http://dbpedia.org/class/yago/Entertainer109616922",
+            "http://dbpedia.org/class/yago/Entertainer109616922"
+        ]
+    },
+    "Farmer": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Farmer110078806"
+        ]
+    },
+    "FilmDirector": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/FilmDirector110088200",
+            "http://dbpedia.org/class/yago/FilmDirector110088200"
+        ]
+    },
+    "FilmMaker": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/FilmMaker110088390",
+            "http://dbpedia.org/class/yago/FilmMaker110088390"
+        ]
+    },
+    "FrenchActors": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchActors"
+        ]
+    },
+    "FrenchComedians": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchComedians",
+            "http://dbpedia.org/class/yago/WikicatFrenchComedians",
+            "http://dbpedia.org/class/yago/WikicatFrenchComedians"
+        ]
+    },
+    "FrenchFilmDirectors": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchFilmDirectors",
+            "http://dbpedia.org/class/yago/WikicatFrenchFilmDirectors"
+        ]
+    },
+    "FrenchFilmProducers": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchFilmProducers"
+        ]
+    },
+    "FrenchHumorists": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchHumorists",
+            "http://dbpedia.org/class/yago/WikicatFrenchHumorists"
+        ]
+    },
+    "FrenchMaleFilmActors": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleFilmActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleFilmActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleFilmActors"
+        ]
+    },
+    "FrenchMaleSingers": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleSingers"
+        ]
+    },
+    "FrenchMaleTelevisionActors": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleTelevisionActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleTelevisionActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchMaleTelevisionActors"
+        ]
+    },
+    "FrenchPeople": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchPeople",
+            "http://dbpedia.org/class/yago/WikicatFrenchPeople",
+            "http://dbpedia.org/class/yago/WikicatFrenchPeople"
+        ]
+    },
+    "FrenchPeopleOfDutchDescent": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchPeopleOfDutchDescent"
+        ]
+    },
+    "FrenchPeopleOfItalianDescent": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchPeopleOfItalianDescent"
+        ]
+    },
+    "FrenchPeopleOfRussianDescent": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchPeopleOfRussianDescent"
+        ]
+    },
+    "FrenchScreenwriters": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchScreenwriters",
+            "http://dbpedia.org/class/yago/WikicatFrenchScreenwriters",
+            "http://dbpedia.org/class/yago/WikicatFrenchScreenwriters"
+        ]
+    },
+    "FrenchSingers": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchSingers"
+        ]
+    },
+    "FrenchStageActors": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchStageActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchStageActors"
+        ]
+    },
+    "FrenchTelevisionActors": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatFrenchTelevisionActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchTelevisionActors",
+            "http://dbpedia.org/class/yago/WikicatFrenchTelevisionActors"
+        ]
+    },
+    "Humorist": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Humorist110191943",
+            "http://dbpedia.org/class/yago/Humorist110191943"
+        ]
+    },
+    "LegalActor": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/YagoLegalActor",
+            "http://dbpedia.org/class/yago/YagoLegalActor",
+            "http://dbpedia.org/class/yago/YagoLegalActor"
+        ]
+    },
+    "LegalActorGeo": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/YagoLegalActorGeo",
+            "http://dbpedia.org/class/yago/YagoLegalActorGeo",
+            "http://dbpedia.org/class/yago/YagoLegalActorGeo"
+        ]
+    },
+    "LivingPeople": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatLivingPeople",
+            "http://dbpedia.org/class/yago/WikicatLivingPeople"
+        ]
+    },
+    "LivingThing": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/LivingThing100004258",
+            "http://dbpedia.org/class/yago/LivingThing100004258",
+            "http://dbpedia.org/class/yago/LivingThing100004258"
+        ]
+    },
+    "Mime": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Mime110318892"
+        ]
+    },
+    "Mimes": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatMimes"
+        ]
+    },
+    "Musician": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Musician110339966",
+            "http://dbpedia.org/class/yago/Musician110340312",
+            "http://dbpedia.org/class/yago/Musician110339966",
+            "http://dbpedia.org/class/yago/Musician110340312"
+        ]
+    },
+    "NaturalPerson": {
+        "_score": 3,
+        "ns": [
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#NaturalPerson",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#NaturalPerson",
+            "http://www.ontologydesignpatterns.org/ont/dul/DUL.owl#NaturalPerson"
+        ]
+    },
+    "Object": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Object100002684",
+            "http://dbpedia.org/class/yago/Object100002684",
+            "http://dbpedia.org/class/yago/Object100002684"
+        ]
+    },
+    "Organism": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Organism100004475",
+            "http://dbpedia.org/class/yago/Organism100004475",
+            "http://dbpedia.org/class/yago/Organism100004475"
+        ]
+    },
+    "PeopleFromHauts-de-Seine": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatPeopleFromHauts-de-Seine"
+        ]
+    },
+    "PeopleFromLePecq": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatPeopleFromLePecq"
+        ]
+    },
+    "PeopleFromNord(FrenchDepartment)": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatPeopleFromNord(FrenchDepartment)"
+        ]
+    },
+    "PeopleFromValenciennes": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatPeopleFromValenciennes"
+        ]
+    },
+    "Performer": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Performer110415638",
+            "http://dbpedia.org/class/yago/Performer110415638",
+            "http://dbpedia.org/class/yago/Performer110415638"
+        ]
+    },
+    "Person": {
+        "_score": 3,
+        "ns": [
+            "http://schema.org",
+            "http://xmlns.com/foaf/0.1",
+            "http://dbpedia.org/ontology",
+            "http://dbpedia.org/class/yago",
+            "http://schema.org",
+            "http://xmlns.com/foaf/0.1",
+            "http://dbpedia.org/ontology",
+            "http://dbpedia.org/class/yago",
+            "http://schema.org",
+            "http://xmlns.com/foaf/0.1",
+            "http://dbpedia.org/ontology",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://schema.org/Person",
+            "http://xmlns.com/foaf/0.1/Person",
+            "http://dbpedia.org/ontology/Person",
+            "http://dbpedia.org/class/yago/Person100007846",
+            "http://schema.org/Person",
+            "http://xmlns.com/foaf/0.1/Person",
+            "http://dbpedia.org/ontology/Person",
+            "http://dbpedia.org/class/yago/Person100007846",
+            "http://schema.org/Person",
+            "http://xmlns.com/foaf/0.1/Person",
+            "http://dbpedia.org/ontology/Person",
+            "http://dbpedia.org/class/yago/Person100007846"
+        ]
+    },
+    "PersonWithOccupation": {
+        "_score": 1,
+        "ns": [
+            "http://umbel.org/umbel/rc"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://umbel.org/umbel/rc/PersonWithOccupation"
+        ]
+    },
+    "PhysicalEntity": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/PhysicalEntity100001930",
+            "http://dbpedia.org/class/yago/PhysicalEntity100001930",
+            "http://dbpedia.org/class/yago/PhysicalEntity100001930"
+        ]
+    },
+    "Producer": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Producer110480018",
+            "http://dbpedia.org/class/yago/Producer110480018"
+        ]
+    },
+    "Screenwriter": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Screenwriter110564400",
+            "http://dbpedia.org/class/yago/Screenwriter110564400",
+            "http://dbpedia.org/class/yago/Screenwriter110564400"
+        ]
+    },
+    "Screenwriters": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatScreenwriters"
+        ]
+    },
+    "Scriptwriter": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Scriptwriter110564905",
+            "http://dbpedia.org/class/yago/Scriptwriter110564905",
+            "http://dbpedia.org/class/yago/Scriptwriter110564905"
+        ]
+    },
+    "Singer": {
+        "_score": 2,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Singer110599806",
+            "http://dbpedia.org/class/yago/Singer110599806"
+        ]
+    },
+    "Thing": {
+        "_score": 3,
+        "ns": [
+            "http://www.w3.org/2002/07/owl",
+            "http://www.w3.org/2002/07/owl",
+            "http://www.w3.org/2002/07/owl"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://www.w3.org/2002/07/owl#Thing",
+            "http://www.w3.org/2002/07/owl#Thing",
+            "http://www.w3.org/2002/07/owl#Thing"
+        ]
+    },
+    "Viticulturist": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Viticulturist110758121"
+        ]
+    },
+    "Viticulturists": {
+        "_score": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Pierre_Richard"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/WikicatViticulturists"
+        ]
+    },
+    "Whole": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Whole100003553",
+            "http://dbpedia.org/class/yago/Whole100003553",
+            "http://dbpedia.org/class/yago/Whole100003553"
+        ]
+    },
+    "Writer": {
+        "_score": 3,
+        "ns": [
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago",
+            "http://dbpedia.org/class/yago"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/Writer110794014",
+            "http://dbpedia.org/class/yago/Writer110794014",
+            "http://dbpedia.org/class/yago/Writer110794014"
+        ]
+    },
+    "human": {
+        "_score": 3,
+        "ns": [
+            "http://www.wikidata.org/entity",
+            "http://www.wikidata.org/entity",
+            "http://www.wikidata.org/entity"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://www.wikidata.org/entity/Q5",
+            "http://www.wikidata.org/entity/Q5",
+            "http://www.wikidata.org/entity/Q5"
+        ]
+    },
+    "person": {
+        "_score": 3,
+        "ns": [
+            "http://www.wikidata.org/entity",
+            "http://www.wikidata.org/entity",
+            "http://www.wikidata.org/entity"
+        ],
+        "resources": [
+            "Jacques_Tati",
+            "Pierre_Richard",
+            "Jean_Dujardin"
+        ],
+        "urls": [
+            "http://www.wikidata.org/entity/Q215627",
+            "http://www.wikidata.org/entity/Q215627",
+            "http://www.wikidata.org/entity/Q215627"
+        ]
+    }
+}

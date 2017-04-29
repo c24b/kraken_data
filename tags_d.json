@@ -1,0 +1,40 @@
+{
+    "agent": {
+        "count": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "predicates": [
+            "CausalAgent"
+        ],
+        "resources": [
+            [
+                "Jacques_Tati",
+                "Pierre_Richard",
+                "Jean_Dujardin"
+            ]
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/CausalAgent100007347"
+        ]
+    },
+    "causal": {
+        "count": 1,
+        "ns": [
+            "http://dbpedia.org/class/yago"
+        ],
+        "predicates": [
+            "CausalAgent"
+        ],
+        "resources": [
+            [
+                "Jacques_Tati",
+                "Pierre_Richard",
+                "Jean_Dujardin"
+            ]
+        ],
+        "urls": [
+            "http://dbpedia.org/class/yago/CausalAgent100007347"
+        ]
+    }
+}

@@ -4,7 +4,7 @@
 filename: intersection.py
 Get the intersection concept between two ressources
 The main goal is to understand the analogy and discover links
-For now using dbpedia
+For now using dbpedia: because predicate are verbose
 '''
 
 import re
@@ -81,6 +81,41 @@ def get_types_d(resource):
 
     return is_type_of
 
+def get_mtypes_d(resources):
+    ''''given multiple resources
+    join existing dict_types
+    and map
+    '''
+    data = [get_types_d(r) for r in resources]
+
+    # list_types = map(lambda x:get_types_d(x), resources)
+    types = {}
+    for d in data:
+        for k, v in d.items():
+
+            if k not in types.keys():
+                types[k] = {"urls":v["urls"], "ns":v["ns"], "resources": [v["resource"]]}
+            else:
+                types[k]["urls"].extend(v["urls"])
+                types[k]["ns"].extend(v["ns"])
+                types[k]["resources"].append(v["resource"])
+    #score
+    for k, v in types.items():
+        types[k]["_score"] = len(types[k]["resources"])
+    return types
+
+def get_common_types(resources, types):
+    '''Level 0 of similarity
+    2 resources are common when they simply share the same type
+    '''
+    # verbose mode
+    # for k,v in types.items():
+    #     if v["_score"] > 1:
+    #         print("%s have %s in common"%(" & ".join(v["resources"]),k))
+    return [(v["resources"], k) for k,v in types.items() if v["_score"] > 1]
+
+def get_tags():
+
 def get_tags_d(resource_dict):
     '''given a single resource_dict of types
     return a dict of tags with tag as key
@@ -113,42 +148,10 @@ def get_tags_d(resource_dict):
                 tag_dict[sing]["count"] += 1
     return tag_dict
 
-def get_mtypes_d(resources):
-    ''''given multiple resources
-    join existing dict_types
-    and map
-    '''
-    data = [get_types_d(r) for r in resources]
-
-    # list_types = map(lambda x:get_types_d(x), resources)
-    types = {}
-    for d in data:
-        for k, v in d.items():
-
-            if k not in types.keys():
-                types[k] = {"urls":v["urls"], "ns":v["ns"], "resources": [v["resource"]]}
-            else:
-                types[k]["urls"].extend(v["urls"])
-                types[k]["ns"].extend(v["ns"])
-                types[k]["resources"].append(v["resource"])
-    #score
-    for k, v in types.items():
-        types[k]["_score"] = len(types[k]["resources"])
-    return types
-
-def get_common_types(resources, types):
-    '''Level 0 of similarity
-    2 resources are common when they simply share the same type
-    '''
-    # for k,v in types.items():
-    #     if v["_score"] > 1:
-    #         print("%s have %s in common"%(" & ".join(v["resources"]),k))
-    return [(v["resources"], k) for k,v in types.items() if v["_score"] > 1]
 
 def build_graph_cotypes(resources, types):
     '''Show the graph of common types
-    label are nodes represented in blue
-    and resources are in red
+    predicates are shown as **nodes**
     '''
     co_types = get_common_types(resources, types)
     g = nx.DiGraph()
@@ -175,7 +178,8 @@ def build_graph_cotypes(resources, types):
     nx.draw(g,pos, with_labels = True)
     plt.savefig("level0.png") # save as png
     plt.show()
-
+def get_tags():
+    pass
 # def get_tags_freq(types):
 #     '''extract tags from description'''
 #     from nltk.stem import WordNetLemmatizer
@@ -343,14 +347,30 @@ def wikicat(resource):
 #     db = client.kraken
 #     db.predicates.insert(dict_items)
 
+def export(data, outfname):
+    '''export in a json format'''
+    import json
+    json_data = json.dumps(data)
+    with open(outfname, 'w') as f:
+        f.write(json_data, encoding="utf-8", indent=4, sort_keys=True)
+    return outfname
+
 if __name__ == "__main__":
     from itertools import chain
+
     resources = ["Jacques_Tati", "Pierre_Richard", "Jean_Dujardin"]
-    # unique test
+    # unique ressources types
     # types = get_types_d(resources[0])
-    # multiple
+    # multiple ressources types
     types = get_mtypes_d(resources)
+    export(types, "ressources_mtypes_example.json")
+
     # common predicate: level 0 matching common properties
+    co_types = get_common_types(resources, types)
+    export(co_types, "co_mtypes_example.json")
+    # unique ressource tags
+
+    # common tags levl 0 matching common properties
     co_types = get_common_types(resources, types)
     #build_graph_cotypes(resources, types)
     # tags_d = get_tags_d(types)
