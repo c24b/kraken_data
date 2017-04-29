@@ -50,3 +50,5 @@ Il faut donc connaitre le vocabulaire et le modèle **AVANT** de pouvoir faire d
 ![](./examples/digraph.png)
 
 ---
+
+3. Pour découvrir des similarités
