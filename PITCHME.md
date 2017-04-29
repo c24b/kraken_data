@@ -1,32 +1,31 @@
-# KRAKEN data
+# KRAKEN
 
 ![](./poulpe.png)
 
-----
+---------
 
-Projet exploratoire:
+Projet exploratoire: Explorer un triple-store par analogie sans connaissance préalable du vocabulaire:
+1. A partir des prédicats de *n* ressources
+4. Détecter les similarités de description
+5. et permettre l'inférence et l'alignement
 
-1. Explorer un triple-store par analogie.
-2. Sans connaissance préalable du vocabulaire.
-3. A partir des étiquettes (prédicats) de *n* ressources
-4. Permettre la detection d'analogie et de faits intéressants
-5. Moteur d'inférence et d'alignement
----
+---------------
 
 ## Hypothèses de travail
 
 Les ressources sont reparties dans différents triplestores elles possèdent différentes caractéristiques parfois redondantes parfois semblables dans leur énoncés.
 
+--------------
 Décrire les liens qu'entretiennent deux ou + de ressources
 à plusieurs niveaux et en déduire leurs caractéristiques majeures.
-
+-------------------
 La similarité entre n ressources est définie par
 le nombre de prédicats commun
 pondérées par le nombre de prédicats qui la définissent
-
+--------------------
 Cette mesure de similarité est ensuite affinée par le nombre d'étapes (de pas) dans le parcours du graph
 qui s'arrête au moment ou deux objets sont communs ou lorsque la source est identique à l'objet.
-
+---
 * Premiers développements
 * Outils de visualisations
 
