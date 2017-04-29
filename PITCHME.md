@@ -19,7 +19,7 @@ Explorer un triple-store par analogie sans connaissance préalable du vocabulair
 ---
 #### Hypothèse de départ
 
-Une ressource est définie sémantiquement par des prédicats normés et classés dans des vocabulaires spécifiques. Les relations qu'elle entretient avec d'autres ressources est défini par des ontologies.
+Une ressource est définie sémantiquement par des prédicats normés et classés dans des vocabulaires spécifiques. Les relations qu'elle entretient avec d'autres ressources sont définies par une ontologie, et son modèle.
 
 ---
 
