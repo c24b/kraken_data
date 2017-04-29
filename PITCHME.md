@@ -24,20 +24,29 @@ Une ressource est définie sémantiquement par des prédicats normés et classé
 ---
 
 Un objet du monde est donc représenté par un graphe étiqueté.
-Le modèle BNF
 ![](http://data.bnf.fr/images/exemple_graphe_1.jpg)
+
+<small>Le modèle DATA BNF</small>
 
 ---
 
 Il faut donc connaitre le vocabulaire et le modèle **AVANT** de pouvoir faire de la découverte de connaissance.
 
 ---
-💡 Une idée?
+💡
 
  **Décrire les relations entre deux ressources en se servant des prédicats comme des étiquettes**
 
 ---
 
-Décrire un ressource a partir de ses prédicats
+1. Décrire la ressource a partir de ses prédicats trasformés en étiquettes
 
 ![](./examples/testA.png)
+
+---
+
+2. Trouver les prédicats communs entre *n* ressources
+
+![](./examples/digraph.png)
+
+---
