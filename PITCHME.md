@@ -24,6 +24,9 @@ Une ressource est définie sémantiquement par des prédicats normés et classé
 ---
 
 Un objet du monde est donc représenté par un graphe étiqueté.
+Le modèle BNF
 ![](http://data.bnf.fr/images/exemple_graphe_1.jpg)
 
 ---
+Décrire un ressource a partir de ses prédicats
+![](./examples/testA.png)
