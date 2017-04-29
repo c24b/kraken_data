@@ -1,5 +1,8 @@
 # KRAKEN data
+
 ![](./poulpe.png)
+
+----
 
 Projet exploratoire:
 
@@ -8,6 +11,7 @@ Projet exploratoire:
 3. A partir des étiquettes (prédicats) de *n* ressources
 4. Permettre la detection d'analogie et de faits intéressants
 5. Moteur d'inférence et d'alignement
+---
 
 ## Hypothèses de travail
 
