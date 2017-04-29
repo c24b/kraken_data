@@ -13,7 +13,7 @@
 Explorer un triple-store par analogie sans connaissance préalable du vocabulaire:
 1. A partir des prédicats de *n* ressources
 2. Détecter les similarités de description
-3. Permettre l'alignement entre triplestore:
+3. Permettre l'alignement entre triplestore: enrichir les relations
 4. Permettre l'inférence: des points communs intéressants
 
 ---
